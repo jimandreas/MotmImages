@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# Update process:
+# 1) Download thumbnails into folders named by the Motm number rooted on "PNG"
+# 2) create a "PNG-transparent" folder
+# 3) run this script to change background to transparent and
+#    rename the file to "motm-newTransparentThumbnail.png" and
+#    save it in the "PNG-transparent" folder
+#
+# Script written by Claude Opus 4.5
+
+cd "C:/a/j/active/MotmImages/docs/update" || exit
+
+for dir in PNG/*/;
+  do
+    dirnum=$(basename "$dir");
+    for file in "$dir"*.png;
+      do
+        if [ -f "$file" ]; then
+          filename=$(basename "$file");
+          magick "$file" -fuzz 5% -transparent white "PNG-transparent/${dirnum}-${filename}";
+          echo "Converted: ${dirnum}-${filename}";
+        fi;
+      done;
+  done
